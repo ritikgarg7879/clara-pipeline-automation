@@ -37,7 +37,7 @@
   "non_emergency_routing_rules": {
     "primary_contact": "555-010224",
     "secondary_contacts": [],
-    "message_protocol": "messages are taken and we follow up next business day"
+    "message_protocol": "messages are taken and followed up next business day"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -48,15 +48,15 @@
     "Never schedule jobs on Sundays",
     "Never promise remote support as the only option, always offer to schedule an on-site visit"
   ],
-  "after_hours_flow_summary": "Screen for emergencies, collect caller information, attempt transfer to primary contact, and assure callback within 30 minutes if transfer fails",
-  "office_hours_flow_summary": "calls are answered, messages are taken and called back within 2 hours if no one answers",
+  "after_hours_flow_summary": "Screen for emergencies, collect caller information, attempt transfer to primary or secondary contact",
+  "office_hours_flow_summary": "calls are answered, messages are taken if no answer and callbacks are made within 2 hours",
   "questions_or_unknowns": [
     "Account ID not provided",
+    "Call transfer rules not mentioned",
     "Failure message for call transfer not specified",
-    "Integration constraints not mentioned",
-    "Notes not provided"
+    "Integration constraints not mentioned"
   ],
-  "notes": "Extracted from demo call transcript",
+  "notes": "Extracted account information from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-05T00:11:36.312620"
+  "last_updated": "2026-03-05T01:02:00.947648"
 }

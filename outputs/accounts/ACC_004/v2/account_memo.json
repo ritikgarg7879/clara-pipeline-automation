@@ -11,9 +11,7 @@
     ],
     "start_time": "07:00",
     "end_time": "17:00",
-    "timezone": "CST",
-    "start": "07:00",
-    "end": "17:00"
+    "timezone": "CST"
   },
   "office_address": "456 Garden Way, Riverside, IL 60546",
   "services_supported": [
@@ -53,7 +51,7 @@
     "Never schedule tree removal jobs on Mondays",
     "Always require a signed written quote before scheduling any job over 500 dollars"
   ],
-  "after_hours_flow_summary": "immediate transfer for emergencies, message taken for non-emergencies",
+  "after_hours_flow_summary": "immediate transfer to emergency contact for emergencies, message taken for non-emergencies",
   "office_hours_flow_summary": "regular scheduling and quotes through primary contact",
   "questions_or_unknowns": [
     "Account ID not provided",
@@ -62,5 +60,5 @@
   ],
   "notes": "Extracted from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-05T00:11:38.359055"
+  "last_updated": "2026-03-05T01:02:03.130094"
 }

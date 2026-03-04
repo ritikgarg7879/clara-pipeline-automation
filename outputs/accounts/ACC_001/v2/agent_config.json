@@ -88,12 +88,12 @@
     }
   },
   "version": "v2",
-  "created_at": "2026-03-05T00:11:30.205498",
-  "updated_at": "2026-03-05T00:11:35.241467",
+  "created_at": "2026-03-05T01:01:54.058522",
+  "updated_at": "2026-03-05T01:01:59.938561",
   "changelog": [
     {
       "version": "v2",
-      "date": "2026-03-05T00:11:35.241467",
+      "date": "2026-03-05T01:01:59.938561",
       "changes": [
         "Updated emergency secondary contacts",
         "Added new services: Smart Panel Installation",
@@ -102,5 +102,5 @@
       ]
     }
   ],
-  "last_updated": "2026-03-05T00:11:35.244464"
+  "last_updated": "2026-03-05T01:01:59.941129"
 }

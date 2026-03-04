@@ -45,11 +45,11 @@
   "after_hours_flow_summary": "Messages are taken and returned the next morning",
   "office_hours_flow_summary": "Appointments are confirmed before a technician is sent",
   "questions_or_unknowns": [
-    "No secondary emergency contact provided",
-    "No fallback protocol for emergency contact provided",
-    "No failure message for call transfer provided"
+    "Call transfer rules not provided",
+    "Failure message for call transfer not provided",
+    "Fallback protocol for emergency routing not provided"
   ],
-  "notes": "Extracted from demo call transcript for ABC Plumbing Services",
+  "notes": "Extracted from demo call transcript",
   "version": "v1",
-  "last_updated": "2026-03-05T00:11:32.215806"
+  "last_updated": "2026-03-05T01:01:56.284580"
 }

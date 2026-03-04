@@ -35,7 +35,7 @@
   "non_emergency_routing_rules": {
     "primary_contact": "403-870-8494",
     "secondary_contacts": [],
-    "message_protocol": "call back within 2 hours if nobody answers"
+    "message_protocol": "take a message and follow up next business day"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -47,12 +47,12 @@
     "do not take on jobs outside Calgary and surrounding areas within 50 kilometers"
   ],
   "after_hours_flow_summary": "screen for true emergencies first, connect to Ben directly for emergencies, take a message for non-emergencies",
-  "office_hours_flow_summary": "call 403-870-8494, call back within 2 hours if nobody answers",
+  "office_hours_flow_summary": "call 403-870-8494, if nobody answers call back within 2 hours",
   "questions_or_unknowns": [
     "Account ID not provided",
     "Failure message for call transfer not specified"
   ],
   "notes": "Extracted from demo call transcript",
   "version": "v1",
-  "last_updated": "2026-03-05T00:11:30.206448"
+  "last_updated": "2026-03-05T01:01:54.060039"
 }

@@ -19,9 +19,7 @@
       ],
       "start_time": "07:00",
       "end_time": "17:00",
-      "timezone": "CST",
-      "start": "07:00",
-      "end": "17:00"
+      "timezone": "CST"
     },
     "office_address": "456 Garden Way, Riverside, IL 60546",
     "services": [
@@ -90,14 +88,13 @@
     }
   },
   "version": "v2",
-  "created_at": "2026-03-05T00:11:33.163929",
-  "updated_at": "2026-03-05T00:11:38.358050",
+  "created_at": "2026-03-05T01:01:57.459124",
+  "updated_at": "2026-03-05T01:02:03.129095",
   "changelog": [
     {
       "version": "v2",
-      "date": "2026-03-05T00:11:38.358050",
+      "date": "2026-03-05T01:02:03.129095",
       "changes": [
-        "Updated business hours",
         "Updated emergency primary contact to 555-030125",
         "Updated emergency secondary contacts",
         "Added new services: Landscape Lighting Installation",
@@ -106,5 +103,5 @@
       ]
     }
   ],
-  "last_updated": "2026-03-05T00:11:38.361059"
+  "last_updated": "2026-03-05T01:02:03.131095"
 }

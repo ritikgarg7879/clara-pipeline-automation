@@ -51,11 +51,11 @@
   "after_hours_flow_summary": "emergencies get immediate transfer to primary contact, non-emergencies get message taken and callback confirmed for next business morning before 10 AM",
   "office_hours_flow_summary": "drain cleaning jobs not scheduled between 08:00 and 09:00, 2-hour arrival window given",
   "questions_or_unknowns": [
-    "No secondary emergency contact provided",
-    "No fallback protocol for emergency contact provided",
-    "No failure message for call transfer provided"
+    "Call transfer rules not provided",
+    "Failure message for call transfer not provided",
+    "Fallback protocol for emergency routing not provided"
   ],
-  "notes": "Extracted from demo call transcript for ABC Plumbing Services",
+  "notes": "Extracted from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-05T00:11:37.541822"
+  "last_updated": "2026-03-05T01:02:02.073663"
 }

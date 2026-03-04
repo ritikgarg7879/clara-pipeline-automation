@@ -5,12 +5,11 @@
     "from_version": "v1",
     "to_version": "v2",
     "changes": [
-      "Updated Business hours",
       "Added to Services: Landscape Lighting Installation",
       "Updated Emergency routing",
       "Updated Non-emergency routing",
       "Added to Integration constraints: Never schedule tree removal jobs on Mondays, Always require a signed written quote before scheduling any job over 500 dollars"
     ],
-    "timestamp": "2026-03-05T00:11:38.389876"
+    "timestamp": "2026-03-05T01:02:03.161227"
   }
 ]

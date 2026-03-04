@@ -41,7 +41,7 @@
   "non_emergency_routing_rules": {
     "primary_contact": "403-870-8494",
     "secondary_contacts": [],
-    "message_protocol": "call back within 2 hours if nobody answers",
+    "message_protocol": "take a message and follow up next business day",
     "during_business_hours": "route to primary contact, take detailed message if no answer"
   },
   "call_transfer_rules": {
@@ -64,5 +64,5 @@
   ],
   "notes": "Extracted from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-05T00:11:35.242465"
+  "last_updated": "2026-03-05T01:01:59.938561"
 }

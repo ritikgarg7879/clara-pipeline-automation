@@ -28,12 +28,12 @@
   "emergency_routing_rules": {
     "primary_contact": "555-010223",
     "secondary_contacts": [],
-    "fallback_protocol": "messages are taken and we call back within 2 hours"
+    "fallback_protocol": "messages are taken and callbacks are made within 2 hours"
   },
   "non_emergency_routing_rules": {
     "primary_contact": "555-010224",
     "secondary_contacts": [],
-    "message_protocol": "messages are taken and we follow up next business day"
+    "message_protocol": "messages are taken and followed up next business day"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -41,15 +41,15 @@
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
   "integration_constraints": [],
-  "after_hours_flow_summary": "screens for emergencies, non-emergency calls get a message taken and followed up next business day",
-  "office_hours_flow_summary": "calls are answered, messages are taken and called back within 2 hours if no one answers",
+  "after_hours_flow_summary": "screens for emergencies, non-emergency calls get a message and follow-up next business day",
+  "office_hours_flow_summary": "calls are answered, messages are taken if no answer and callbacks are made within 2 hours",
   "questions_or_unknowns": [
     "Account ID not provided",
+    "Call transfer rules not mentioned",
     "Failure message for call transfer not specified",
-    "Integration constraints not mentioned",
-    "Notes not provided"
+    "Integration constraints not mentioned"
   ],
-  "notes": "Extracted from demo call transcript",
+  "notes": "Extracted account information from demo call transcript",
   "version": "v1",
-  "last_updated": "2026-03-05T00:11:31.169277"
+  "last_updated": "2026-03-05T01:01:55.128409"
 }
