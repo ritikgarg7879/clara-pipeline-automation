@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Account Memo",
+  "type": "object",
+  "required": ["account_id", "company_name", "services_supported"],
+  "properties": {
+    "account_id":    { "type": "string" },
+    "company_name":  { "type": "string" },
+    "business_hours": {
+      "type": "object",
+      "properties": {
+        "days":       { "type": "array", "items": { "type": "string" } },
+        "start_time": { "type": "string" },
+        "end_time":   { "type": "string" },
+        "timezone":   { "type": "string" }
+      }
+    },
+    "office_address":              { "type": "string" },
+    "services_supported":          { "type": "array", "items": { "type": "string" } },
+    "emergency_definition":        { "type": "array", "items": { "type": "string" } },
+    "emergency_routing_rules":     { "type": "object" },
+    "non_emergency_routing_rules": { "type": "object" },
+    "call_transfer_rules":         { "type": "object" },
+    "integration_constraints":     { "type": "array", "items": { "type": "string" } },
+    "after_hours_flow_summary":    { "type": "string" },
+    "office_hours_flow_summary":   { "type": "string" },
+    "questions_or_unknowns":       { "type": "array", "items": { "type": "string" } },
+    "notes":        { "type": "string" },
+    "version":      { "type": "string" },
+    "last_updated": { "type": "string" }
+  }
+}

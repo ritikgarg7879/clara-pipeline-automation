@@ -1,0 +1,78 @@
+{
+  "name": "Onboarding Pipeline — Clara Assignment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "onboarding-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const body = $input.first().json;\nif (!body.transcript) throw new Error('transcript is required');\nif (!body.account_id) throw new Error('account_id is required');\nreturn [{ json: { transcript: body.transcript, account_id: body.account_id.toUpperCase() } }];"
+      },
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8000/extract-updates",
+        "requestMethod": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{ JSON.stringify({ transcript: $json.transcript, account_id: $json.account_id }) }}"
+      },
+      "name": "Extract Updates",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8000/update-agent-config",
+        "requestMethod": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{ JSON.stringify({ account_id: $json.data.account_id, updates: $json.data, version: 'v2' }) }}"
+      },
+      "name": "Update Agent Config v2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const result = $input.first().json;\nconsole.log(`[Clara] v2 config generated for ${result.data?.account_id}, changes: ${result.data?.changes?.length}`);\nreturn [{ json: { success: true, account_id: result.data?.account_id, version: 'v2', changes: result.data?.changes } }];"
+      },
+      "name": "Log Task",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": { "responseCode": 200 }
+      },
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "Webhook":        { "main": [[{ "node": "Validate Input",       "type": "main", "index": 0 }]] },
+    "Validate Input": { "main": [[{ "node": "Extract Updates",      "type": "main", "index": 0 }]] },
+    "Extract Updates":{ "main": [[{ "node": "Update Agent Config v2","type": "main", "index": 0 }]] },
+    "Update Agent Config v2": { "main": [[{ "node": "Log Task",     "type": "main", "index": 0 }]] },
+    "Log Task":       { "main": [[{ "node": "Respond",              "type": "main", "index": 0 }]] }
+  }
+}

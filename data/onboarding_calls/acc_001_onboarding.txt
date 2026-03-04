@@ -1,0 +1,17 @@
+This is the onboarding call for Ben's Electric Solutions, account ACC_001. Ben Penoyer speaking.
+
+Business hours confirmed: Monday to Friday, 7 AM to 5 PM MST.
+
+Emergency primary contact is 403-870-8494. Backup emergency contact is 403-555-0199 which reaches our senior subcontractor Mike.
+
+Emergency definition updated: complete power outage affecting whole property, sparking or burning electrical panel, electrical fire or smoke from outlets, downed power lines, and carbon monoxide alarm triggered by electrical fault.
+
+For non-emergency calls during business hours route to 403-870-8494. If no answer after 30 seconds take a detailed message including name, phone, address, and description.
+
+We have added a new service: Smart Panel Installation.
+
+Integration constraints: Never create a job in Jobber without customer verbal confirmation. Never book emergency jobs directly, just collect the information and we dispatch manually. Never promise same-day service.
+
+Office address confirmed: 4710 17 Ave SW, Calgary, AB T3E 0E4.
+
+After-hours: screen for emergency using definition above. If emergency collect name, phone, address immediately then attempt transfer to 403-870-8494, backup 403-555-0199. If transfer fails after 30 seconds apologize and assure callback within 15 minutes. If non-emergency collect name, phone, description and confirm callback next business day.

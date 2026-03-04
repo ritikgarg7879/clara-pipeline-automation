@@ -1,0 +1,54 @@
+{
+  "account_id": "ACC_004",
+  "company_name": "GreenLandscaping Co",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start_time": "07:00",
+    "end_time": "17:00",
+    "timezone": "CST"
+  },
+  "office_address": "456 Garden Way, Riverside, IL 60546",
+  "services_supported": [
+    "Lawn Care",
+    "Tree Removal",
+    "Garden Design",
+    "Snow Removal",
+    "Irrigation Setup"
+  ],
+  "emergency_definition": [
+    "fallen trees blocking property access",
+    "major storm damage",
+    "irrigation failures causing flooding"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "555-030123",
+    "secondary_contacts": [],
+    "fallback_protocol": ""
+  },
+  "non_emergency_routing_rules": {
+    "primary_contact": "555-030124",
+    "secondary_contacts": [],
+    "message_protocol": "After hours we take messages and call back next business day"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
+  },
+  "integration_constraints": [
+    "We never schedule tree removal jobs without an in-person assessment first",
+    "We require at least 48 hours notice for all appointments"
+  ],
+  "after_hours_flow_summary": "After hours we take messages and call back next business day",
+  "office_hours_flow_summary": "Greet caller, identify needs, collect name and callback number, route to appropriate contact or take message.",
+  "questions_or_unknowns": [],
+  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.407363",
+  "version": "v1",
+  "last_updated": "2026-03-04T14:11:23.408707"
+}

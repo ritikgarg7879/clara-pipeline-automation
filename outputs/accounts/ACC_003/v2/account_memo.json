@@ -1,0 +1,62 @@
+{
+  "account_id": "ACC_003",
+  "company_name": "ABC Plumbing Services",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start_time": "08:00",
+    "end_time": "18:00",
+    "timezone": "EST"
+  },
+  "office_address": "789 River Road, Springfield, IL 62701",
+  "services_supported": [
+    "Plumbing",
+    "Drain Cleaning",
+    "Water Heater Installation",
+    "Emergency Plumbing services"
+  ],
+  "emergency_definition": [
+    "burst pipes",
+    "major leaks",
+    "sewage backups",
+    "no hot water in winter"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "555-020125",
+    "secondary_contacts": [
+      "555-020124"
+    ],
+    "fallback_protocol": "After-hours: emergencies get immediate transfer to 555-020125. If fails promise callback within 20 minutes"
+  },
+  "non_emergency_routing_rules": {
+    "primary_contact": "555-020124",
+    "secondary_contacts": [],
+    "message_protocol": "For regular appointments during business hours they call 555-020124. We take messages after hours and call back first thing in the morning"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
+  },
+  "integration_constraints": [
+    "We never send a technician without confirming the appointment first",
+    "We never promise exact arrival times and always give a 2-hour window",
+    "New constraints: Never schedule drain cleaning jobs between 8 AM and 9 AM as technicians are in morning briefing",
+    "Never promise a specific arrival time, always give a 2-hour window"
+  ],
+  "after_hours_flow_summary": "After-hours: emergencies get immediate transfer to 555-020125. If fails promise callback within 20 minutes",
+  "office_hours_flow_summary": "Greet caller, identify needs, collect name and callback number, route to appropriate contact or take message.",
+  "questions_or_unknowns": [
+    "Emergency contact phone number not provided",
+    "Company name could not be extracted",
+    "Emergency definition not specified"
+  ],
+  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.370358",
+  "version": "v2",
+  "last_updated": "2026-03-04T14:11:24.074890"
+}

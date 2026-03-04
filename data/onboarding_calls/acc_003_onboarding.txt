@@ -1,0 +1,15 @@
+This is the onboarding call for ABC Plumbing Services, account ACC_003.
+
+Business hours confirmed: Monday to Friday, 8 AM to 6 PM EST.
+
+Emergency primary contact updated to 555-020125. Secondary backup is 555-020126.
+
+Non-emergency contact unchanged: 555-020124.
+
+We have added Sump Pump Installation to our services.
+
+New constraints: Never schedule drain cleaning jobs between 8 AM and 9 AM as technicians are in morning briefing. Never promise a specific arrival time, always give a 2-hour window.
+
+Address confirmed: 789 River Road, Springfield, IL 62701.
+
+After-hours: emergencies get immediate transfer to 555-020125. If fails promise callback within 20 minutes. Non-emergencies get message taken and callback confirmed for next business morning before 10 AM.

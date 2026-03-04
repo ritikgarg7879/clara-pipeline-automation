@@ -1,0 +1,17 @@
+[
+  {
+    "account_id": "ACC_002",
+    "data_type": "account_memo",
+    "from_version": "v1",
+    "to_version": "v2",
+    "changes": [
+      "Changed Office address from '123 Main Street, Anytown, CA 90210' to '456 Oak Avenue, Anytown, CA 90210'",
+      "Updated Business hours",
+      "Added to Services: IT Security Audit, Cloud Backup Setup",
+      "Updated Emergency routing",
+      "Updated Non-emergency routing",
+      "Added to Integration constraints: Never schedule jobs on Sundays, Never promise remote support as the only option, always offer to schedule an on-site visit"
+    ],
+    "timestamp": "2026-03-04T12:15:04.574703"
+  }
+]

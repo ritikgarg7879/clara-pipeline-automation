@@ -1,0 +1,78 @@
+{
+  "name": "Demo Call Pipeline — Clara Assignment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "demo-call-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const body = $input.first().json;\nif (!body.transcript) throw new Error('transcript is required');\nif (!body.account_id) throw new Error('account_id is required');\nreturn [{ json: { transcript: body.transcript, account_id: body.account_id.toUpperCase() } }];"
+      },
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8000/extract-account-info",
+        "requestMethod": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{ JSON.stringify({ transcript: $json.transcript, account_id: $json.account_id }) }}"
+      },
+      "name": "Extract Account Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8000/generate-agent-config",
+        "requestMethod": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{ JSON.stringify({ account_id: $json.data.account_id, account_info: $json.data, version: 'v1' }) }}"
+      },
+      "name": "Generate Agent Config v1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const result = $input.first().json;\nconsole.log(`[Clara] v1 config generated for ${result.data?.account_id}`);\nreturn [{ json: { success: true, account_id: result.data?.account_id, version: 'v1', outputs: result.data?.outputs } }];"
+      },
+      "name": "Log Task",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": { "responseCode": 200 }
+      },
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "Webhook":              { "main": [[{ "node": "Validate Input",          "type": "main", "index": 0 }]] },
+    "Validate Input":       { "main": [[{ "node": "Extract Account Info",    "type": "main", "index": 0 }]] },
+    "Extract Account Info": { "main": [[{ "node": "Generate Agent Config v1","type": "main", "index": 0 }]] },
+    "Generate Agent Config v1": { "main": [[{ "node": "Log Task",            "type": "main", "index": 0 }]] },
+    "Log Task":             { "main": [[{ "node": "Respond",                 "type": "main", "index": 0 }]] }
+  }
+}

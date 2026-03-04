@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+venv/
+env/
+.venv/
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Generated outputs (keep structure, ignore generated data)
+#outputs/accounts/*/
+#changelog/
+
+# Batch summary
+batch_processing_summary.json
+
+# Node
+node_modules/
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+task_log.json

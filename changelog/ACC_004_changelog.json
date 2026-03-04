@@ -1,0 +1,15 @@
+[
+  {
+    "account_id": "ACC_004",
+    "data_type": "account_memo",
+    "from_version": "v1",
+    "to_version": "v2",
+    "changes": [
+      "Updated Business hours",
+      "Added to Services: Landscape Lighting Installation",
+      "Updated Emergency routing",
+      "Added to Integration constraints: Never schedule tree removal jobs on Mondays, Require a signed written quote before scheduling any job over 500 dollars"
+    ],
+    "timestamp": "2026-03-04T12:15:06.087894"
+  }
+]

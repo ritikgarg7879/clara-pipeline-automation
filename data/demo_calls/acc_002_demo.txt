@@ -1,0 +1,9 @@
+Hi, I am calling from TechRepair Solutions. We are a local IT service company located at 123 Main Street, Anytown, CA 90210.
+
+Our business hours are Monday to Saturday, 9 AM to 7 PM PST. We offer Computer Repair, IT Support, and Network Setup services to residential and small business customers.
+
+Emergencies for us include server downtime, critical data loss, and complete network outages. Customers should call our emergency line at 555-010223. For regular service calls during business hours they can reach us at 555-010224.
+
+If no one answers we take messages and call back within 2 hours. We never schedule jobs without customer confirmation.
+
+Our after-hours flow screens for emergencies. Server downtime and network outages are always emergencies. Non-emergency calls after hours get a message taken and we follow up next business day.

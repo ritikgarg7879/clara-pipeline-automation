@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retell Agent Configuration",
+  "type": "object",
+  "required": ["agent_name", "system_prompt", "version"],
+  "properties": {
+    "agent_name":                  { "type": "string" },
+    "voice_style":                 { "type": "object" },
+    "system_prompt":               { "type": "string" },
+    "key_variables":               { "type": "object" },
+    "tool_invocation_placeholders":{ "type": "object" },
+    "call_transfer_protocol":      { "type": "object" },
+    "fallback_protocol":           { "type": "object" },
+    "conversation_flows":          { "type": "object" },
+    "version":    { "type": "string" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "changelog":  { "type": "array" }
+  }
+}

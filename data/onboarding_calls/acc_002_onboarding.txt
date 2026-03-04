@@ -1,0 +1,15 @@
+This is the onboarding call for TechRepair Solutions, account ACC_002.
+
+Business hours confirmed: Monday to Saturday, 9 AM to 7 PM PST.
+
+We have added two new services: IT Security Audit and Cloud Backup Setup.
+
+Emergency routing changed. Primary emergency contact is now 555-010225. Backup is 555-010226.
+
+Non-emergency contact during business hours remains 555-010224.
+
+Office address confirmed: 456 Oak Avenue, Anytown, CA 90210.
+
+New constraints: Never schedule jobs on Sundays. Never promise remote support as the only option, always offer to schedule an on-site visit.
+
+After-hours: screen for emergencies. Server downtime and complete network outages always qualify. Collect caller name, company name, phone, and description. Attempt transfer to 555-010225, backup 555-010226. If transfer fails assure callback within 30 minutes.

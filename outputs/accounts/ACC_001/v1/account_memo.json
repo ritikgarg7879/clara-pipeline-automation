@@ -1,0 +1,57 @@
+{
+  "account_id": "ACC_001",
+  "company_name": "Ben's Electric Solutions",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start_time": "07:00",
+    "end_time": "17:00",
+    "timezone": "MST"
+  },
+  "office_address": "4710 17 Ave SW, Calgary, AB T3E 0E4",
+  "services_supported": [
+    "commercial projects",
+    "panel upgrades",
+    "new installations",
+    "EV charger setup"
+  ],
+  "emergency_definition": [
+    "complete power outages affecting the whole property",
+    "sparking or burning electrical panels",
+    "electrical fires or smoke from outlets",
+    "downed power lines on property",
+    "customers should call 403-870-8494. I personally handle emergency calls after hours"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "403-870-8494",
+    "secondary_contacts": [],
+    "fallback_protocol": "For regular service requests during business hours, same number: 403-870-8494. If nobody answers we call back within 2 hours"
+  },
+  "non_emergency_routing_rules": {
+    "primary_contact": "",
+    "secondary_contacts": [],
+    "message_protocol": "For regular service requests during business hours, same number: 403-870-8494. If nobody answers we call back within 2 hours"
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
+  },
+  "integration_constraints": [
+    "We never schedule jobs without customer confirmation",
+    "We do not take on jobs outside Calgary and surrounding areas within 50 kilometers"
+  ],
+  "after_hours_flow_summary": "For emergencies like complete power outages affecting the whole property, sparking or burning electrical panels, electrical fires or smoke from outlets, and downed power lines on property, customers should call 403-870-8494. I personally handle emergency calls after hours",
+  "office_hours_flow_summary": "For regular service requests during business hours, same number: 403-870-8494. If nobody answers we call back within 2 hours",
+  "questions_or_unknowns": [
+    "Non-emergency contact phone number not provided"
+  ],
+  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.323450",
+  "version": "v1",
+  "last_updated": "2026-03-04T14:11:23.325355"
+}

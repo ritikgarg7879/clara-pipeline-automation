@@ -1,0 +1,41 @@
+name: Clara Pipeline Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run test suite
+        run: python scripts/test_pipeline.py
+
+      - name: Run full pipeline
+        run: python scripts/batch_processor.py
+
+      - name: Verify outputs exist
+        run: |
+          ls outputs/accounts/ACC_001/v1/account_memo.json
+          ls outputs/accounts/ACC_001/v1/agent_config.json
+          ls outputs/accounts/ACC_001/v2/account_memo.json
+          ls outputs/accounts/ACC_001/v2/agent_config.json
+          ls changelog/ACC_001_changelog.json
+
+      - name: Test idempotency
+        run: python scripts/batch_processor.py
+
+      - name: Show summary
+        run: python scripts/batch_processor.py --summary

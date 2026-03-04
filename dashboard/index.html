@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clara Pipeline Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh}
+header{background:#1a1d27;border-bottom:1px solid #2d3148;padding:16px 32px;display:flex;align-items:center;gap:12px}
+header h1{font-size:18px;font-weight:600;color:#fff}
+.badge{background:#6366f1;color:#fff;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+.main{max-width:1200px;margin:0 auto;padding:32px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat{background:#1a1d27;border:1px solid #2d3148;border-radius:12px;padding:20px}
+.stat-value{font-size:32px;font-weight:700;color:#6366f1}
+.stat-label{font-size:13px;color:#94a3b8;margin-top:4px}
+.section-title{font-size:13px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.accounts{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:32px}
+.card{background:#1a1d27;border:1px solid #2d3148;border-radius:12px;padding:20px;cursor:pointer;transition:border-color .2s}
+.card:hover,.card.active{border-color:#6366f1}
+.card.active{background:#1e2035}
+.card-id{font-size:11px;font-weight:600;color:#6366f1;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.card-company{font-size:16px;font-weight:600;color:#fff;margin-bottom:10px}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.pill{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+.pv1{background:#1e3a5f;color:#60a5fa}
+.pv2{background:#14532d;color:#4ade80}
+.card-meta{font-size:12px;color:#64748b}
+.diff-panel{background:#1a1d27;border:1px solid #2d3148;border-radius:12px;padding:24px}
+.diff-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.diff-title{font-size:15px;font-weight:600;color:#94a3b8}
+.tabs{display:flex;gap:2px;background:#0f1117;border-radius:8px;padding:3px}
+.tab{padding:6px 16px;border-radius:6px;font-size:13px;cursor:pointer;color:#64748b;border:none;background:none}
+.tab.active{background:#2d3148;color:#fff}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.diff-col{background:#0f1117;border:1px solid #2d3148;border-radius:8px;overflow:hidden}
+.col-head{padding:10px 16px;font-size:12px;font-weight:600;border-bottom:1px solid #2d3148}
+.col-v1{background:#1e3a5f22;color:#60a5fa}
+.col-v2{background:#14532d22;color:#4ade80}
+pre{padding:16px;font-size:11px;line-height:1.6;overflow:auto;max-height:480px;color:#cbd5e1;font-family:'JetBrains Mono','Fira Code',monospace}
+.changes-list{list-style:none}
+.change-item{padding:10px 0;border-bottom:1px solid #2d3148;font-size:13px;display:flex;gap:8px}
+.change-item:last-child{border-bottom:none}
+.ci-icon{color:#4ade80;flex-shrink:0}
+.empty{text-align:center;padding:48px;color:#475569;font-size:14px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.diff-grid{grid-template-columns:1fr}.main{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div style="width:28px;height:28px;background:#6366f1;border-radius:8px;display:flex;align-items:center;justify-content:center">⚡</div>
+  <h1>Clara Pipeline</h1>
+  <span class="badge">Dashboard</span>
+</header>
+<div class="main">
+  <div class="stats">
+    <div class="stat"><div class="stat-value" id="s-total">—</div><div class="stat-label">Accounts</div></div>
+    <div class="stat"><div class="stat-value" id="s-v2">—</div><div class="stat-label">Upgraded to v2</div></div>
+    <div class="stat"><div class="stat-value" id="s-flags">—</div><div class="stat-label">Fields Flagged</div></div>
+    <div class="stat"><div class="stat-value" id="s-changes">—</div><div class="stat-label">Changes Logged</div></div>
+  </div>
+  <div class="section-title">Accounts</div>
+  <div id="accounts" class="accounts"><div class="empty">Start the API server then refresh:<br><br><code style="background:#1a1d27;padding:4px 10px;border-radius:6px">python scripts/api_server.py</code></div></div>
+  <div class="section-title" style="margin-top:32px">Diff Viewer</div>
+  <div class="diff-panel">
+    <div class="diff-header">
+      <div class="diff-title" id="diff-title">Select an account to view diff</div>
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('changes',this)">Changes</button>
+        <button class="tab" onclick="switchTab('memo',this)">Memo JSON</button>
+        <button class="tab" onclick="switchTab('prompt',this)">Agent Prompt</button>
+      </div>
+    </div>
+    <div id="tab-changes"><div class="empty">← Select an account</div></div>
+    <div id="tab-memo"    style="display:none"><div class="empty">← Select an account</div></div>
+    <div id="tab-prompt"  style="display:none"><div class="empty">← Select an account</div></div>
+  </div>
+</div>
+<script>
+const API='http://localhost:8000';
+let store={},sel=null,activeTab='changes';
+
+async function j(url){const r=await fetch(url);if(!r.ok)throw new Error(r.status);return r.json()}
+
+async function load(){
+  try{
+    const s=await j(`${API}/accounts`);
+    const accts=s.data.accounts;
+    const ids=Object.keys(accts);
+    let totalFlags=0,totalChanges=0;
+
+    const cards=[];
+    for(const id of ids){
+      try{
+        const [hist,vm1,vm2,va1,va2]=await Promise.all([
+          j(`${API}/accounts/${id}`),
+          j(`${API}/accounts/${id}/v1/memo`).catch(()=>null),
+          j(`${API}/accounts/${id}/v2/memo`).catch(()=>null),
+          j(`${API}/accounts/${id}/v1/agent`).catch(()=>null),
+          j(`${API}/accounts/${id}/v2/agent`).catch(()=>null),
+        ]);
+        store[id]={hist:hist.data,v1memo:vm1?.data,v2memo:vm2?.data,v1agent:va1?.data,v2agent:va2?.data};
+        const flags=(vm1?.data?.questions_or_unknowns||[]).length;
+        totalFlags+=flags;
+        const chgs=hist.data.changelog?.reduce((n,e)=>n+(e.changes?.length||0),0)||0;
+        totalChanges+=chgs;
+        const vs=accts[id].versions||[];
+        cards.push(`<div class="card" id="card-${id}" onclick="selectAccount('${id}')">
+          <div class="card-id">${id}</div>
+          <div class="card-company">${accts[id].company_name||'—'}</div>
+          <div class="pills">${vs.map(v=>`<span class="pill p${v}">${v}</span>`).join('')}</div>
+          <div class="card-meta">${chgs} change${chgs!==1?'s':''} logged${flags>0?` · ${flags} flag${flags!==1?'s':''}`:''}
+          </div></div>`);
+      }catch(e){cards.push(`<div class="card"><div class="card-id">${id}</div><div style="color:#ef4444;font-size:13px">Error loading</div></div>`);}
+    }
+    document.getElementById('s-total').textContent=ids.length;
+    document.getElementById('s-v2').textContent=ids.filter(id=>(accts[id].versions||[]).includes('v2')).length;
+    document.getElementById('s-flags').textContent=totalFlags;
+    document.getElementById('s-changes').textContent=totalChanges;
+    document.getElementById('accounts').innerHTML=cards.join('')||'<div class="empty">No accounts — run the batch processor first</div>';
+  }catch(e){
+    document.getElementById('accounts').innerHTML='<div class="empty">API not running.<br><br><code style="background:#0f1117;padding:4px 10px;border-radius:6px">python scripts/api_server.py</code></div>';
+    document.getElementById('s-total').textContent='—';
+  }
+}
+
+function selectAccount(id){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('card-'+id)?.classList.add('active');
+  sel=id;
+  renderDiff();
+}
+
+function switchTab(tab,btn){
+  activeTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  ['changes','memo','prompt'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'':'none');
+  if(sel)renderDiff();
+}
+
+function renderDiff(){
+  const d=store[sel];
+  if(!d)return;
+  const co=d.v1memo?.company_name||sel;
+  document.getElementById('diff-title').textContent=`${co} — v1 → v2`;
+  document.getElementById('diff-title').style.color='#e2e8f0';
+
+  const chgs=d.hist?.changelog?.flatMap(e=>e.changes)||[];
+  document.getElementById('tab-changes').innerHTML=chgs.length
+    ?`<ul class="changes-list">${chgs.map(c=>`<li class="change-item"><span class="ci-icon">→</span><span>${c}</span></li>`).join('')}</ul>`
+    :'<div class="empty">No changelog found. Run Pipeline B first.</div>';
+
+  document.getElementById('tab-memo').innerHTML=(d.v1memo&&d.v2memo)
+    ?`<div class="diff-grid">
+        <div class="diff-col"><div class="col-head col-v1">v1 — Demo Call</div><pre>${esc(JSON.stringify(d.v1memo,null,2))}</pre></div>
+        <div class="diff-col"><div class="col-head col-v2">v2 — After Onboarding</div><pre>${esc(JSON.stringify(d.v2memo,null,2))}</pre></div>
+      </div>`
+    :'<div class="empty">Run both pipelines first</div>';
+
+  document.getElementById('tab-prompt').innerHTML=(d.v1agent?.system_prompt||d.v2agent?.system_prompt)
+    ?`<div class="diff-grid">
+        <div class="diff-col"><div class="col-head col-v1">v1 System Prompt</div><pre>${esc(d.v1agent?.system_prompt||'Not available')}</pre></div>
+        <div class="diff-col"><div class="col-head col-v2">v2 System Prompt</div><pre>${esc(d.v2agent?.system_prompt||'Not available')}</pre></div>
+      </div>`
+    :'<div class="empty">Run both pipelines first</div>';
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+load();
+</script>
+</body>
+</html>

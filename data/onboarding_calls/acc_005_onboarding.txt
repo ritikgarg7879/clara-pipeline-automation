@@ -1,0 +1,17 @@
+This is the onboarding call for CleanAir HVAC Services, account ACC_005.
+
+Business hours confirmed: Monday to Saturday, 8 AM to 8 PM MST.
+
+Emergency primary contact: 555-040125. Backup: 555-040126.
+
+Non-emergency contact unchanged: 555-040124 during business hours.
+
+We have added Smart Thermostat Installation and Heat Pump Service to our services.
+
+New constraints: Never schedule maintenance visits on the same day the customer calls, minimum next-day scheduling. Never dispatch for warranty work without first verifying warranty status with the customer.
+
+Address confirmed: 321 Comfort Lane, Denver, CO 80201.
+
+After-hours emergency definitions: gas smell near HVAC is always immediate emergency. Carbon monoxide alert is always immediate emergency. No heat in winter is emergency. No cooling when outdoor temperature is above 95 degrees is emergency. All others are non-emergency.
+
+Emergency transfer: attempt 555-040125 then 555-040126. If both fail promise callback within 1 hour.
