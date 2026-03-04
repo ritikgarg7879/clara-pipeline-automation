@@ -1,5 +1,10 @@
 # Clara Answers — Automation Pipeline
 
+## Demo Video
+[▶ Watch the pipeline demo on Loom](https://www.loom.com/share/e9e22b56629d4f809152b9a16771860d)
+
+---
+
 > **Demo Call → Retell Agent Draft → Onboarding Updates → Agent Revision**
 > Zero-cost, fully automated, version-controlled, production-ready.
 
