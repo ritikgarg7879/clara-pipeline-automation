@@ -5,12 +5,11 @@
     "from_version": "v1",
     "to_version": "v2",
     "changes": [
-      "Updated Business hours",
       "Added to Services: Smart Thermostat Installation, Heat Pump Service",
-      "Added to Emergency definition: gas smell near HVAC, Carbon monoxide alert, No heat in winter, No cooling when outdoor temperature is above 95 degrees",
+      "Added to Emergency definition: gas smell near HVAC, No cooling when outdoor temperature is above 95 degrees",
       "Updated Emergency routing",
       "Added to Integration constraints: Never schedule maintenance visits on the same day the customer calls, minimum next-day scheduling, Never dispatch for warranty work without first verifying warranty status with the customer"
     ],
-    "timestamp": "2026-03-04T12:15:06.948943"
+    "timestamp": "2026-03-05T00:11:39.334198"
   }
 ]

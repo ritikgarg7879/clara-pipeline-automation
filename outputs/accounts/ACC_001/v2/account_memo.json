@@ -15,32 +15,34 @@
   },
   "office_address": "4710 17 Ave SW, Calgary, AB T3E 0E4",
   "services_supported": [
+    "residential service calls",
     "commercial projects",
     "panel upgrades",
     "new installations",
-    "EV charger setup"
+    "EV charger setup",
+    "Smart Panel Installation"
   ],
   "emergency_definition": [
     "complete power outages affecting the whole property",
     "sparking or burning electrical panels",
     "electrical fires or smoke from outlets",
     "downed power lines on property",
-    "customers should call 403-870-8494. I personally handle emergency calls after hours",
-    "updated: complete power outage affecting whole property",
-    "sparking or burning electrical panel",
+    "complete power outage affecting whole property",
     "electrical fire or smoke from outlets",
-    "downed power lines",
     "carbon monoxide alarm triggered by electrical fault"
   ],
   "emergency_routing_rules": {
     "primary_contact": "403-870-8494",
-    "secondary_contacts": [],
-    "fallback_protocol": "For non-emergency calls during business hours route to 403-870-8494. If no answer after 30 seconds take a detailed message including name, phone, address, and description"
+    "secondary_contacts": [
+      "403-555-0199"
+    ],
+    "fallback_protocol": "attempt transfer to primary, then secondary, apologize and assure callback within 15 minutes if transfer fails"
   },
   "non_emergency_routing_rules": {
-    "primary_contact": "",
+    "primary_contact": "403-870-8494",
     "secondary_contacts": [],
-    "message_protocol": "For regular service requests during business hours, same number: 403-870-8494. If nobody answers we call back within 2 hours"
+    "message_protocol": "call back within 2 hours if nobody answers",
+    "during_business_hours": "route to primary contact, take detailed message if no answer"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -48,19 +50,19 @@
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
   "integration_constraints": [
-    "We never schedule jobs without customer confirmation",
-    "We do not take on jobs outside Calgary and surrounding areas within 50 kilometers",
-    "Integration constraints: Never create a job in Jobber without customer verbal confirmation",
-    "Never book emergency jobs directly, just collect the information and we dispatch manually",
+    "do not schedule jobs without customer confirmation",
+    "do not take on jobs outside Calgary and surrounding areas within 50 kilometers",
+    "Never create a job in Jobber without customer verbal confirmation",
+    "Never book emergency jobs directly",
     "Never promise same-day service"
   ],
-  "after_hours_flow_summary": "After-hours: screen for emergency using definition above",
-  "office_hours_flow_summary": "For non-emergency calls during business hours route to 403-870-8494. If no answer after 30 seconds take a detailed message including name, phone, address, and description",
+  "after_hours_flow_summary": "screen for emergency, collect information and attempt transfer to primary or secondary contact, or collect information and confirm callback next business day for non-emergencies",
+  "office_hours_flow_summary": "route non-emergency calls to primary contact, take detailed message if no answer",
   "questions_or_unknowns": [
-    "Non-emergency contact phone number not provided",
-    "Company name could not be extracted"
+    "Account ID not provided",
+    "Failure message for call transfer not specified"
   ],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.323450",
+  "notes": "Extracted from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-04T14:11:23.709277"
+  "last_updated": "2026-03-05T00:11:35.242465"
 }

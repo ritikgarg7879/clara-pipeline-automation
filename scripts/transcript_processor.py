@@ -6,6 +6,87 @@ from typing import Any, Dict, List, Optional
 
 
 # ─────────────────────────────────────────────────────────────
+# Default values — always applied when fields are missing
+# ─────────────────────────────────────────────────────────────
+
+DEFAULT_TRANSFER_RULES = {
+    "timeout_seconds": 30,
+    "max_retries": 3,
+    "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible.",
+}
+
+KNOWN_FIELD_NAMES = {
+    "account_id", "timeout_seconds", "max_retries", "failure_message",
+    "primary_contact", "secondary_contacts", "fallback_protocol",
+    "company_name", "business_hours", "office_address", "services_supported",
+    "emergency_definition", "emergency_routing_rules", "non_emergency_routing_rules",
+    "call_transfer_rules", "integration_constraints", "after_hours_flow_summary",
+    "office_hours_flow_summary", "questions_or_unknowns", "notes", "version",
+    "last_updated", "days", "start_time", "end_time", "timezone",
+}
+
+
+def _apply_defaults(result: Dict) -> Dict:
+    """Apply default values for fields that Groq may leave empty."""
+
+    # Fix call_transfer_rules
+    ctr = result.get("call_transfer_rules", {})
+    if not isinstance(ctr, dict):
+        ctr = {}
+    if not ctr.get("timeout_seconds"):
+        ctr["timeout_seconds"] = DEFAULT_TRANSFER_RULES["timeout_seconds"]
+    if not ctr.get("max_retries"):
+        ctr["max_retries"] = DEFAULT_TRANSFER_RULES["max_retries"]
+    if not ctr.get("failure_message"):
+        ctr["failure_message"] = DEFAULT_TRANSFER_RULES["failure_message"]
+    result["call_transfer_rules"] = ctr
+
+    # Fix emergency_routing_rules
+    erd = result.get("emergency_routing_rules", {})
+    if not isinstance(erd, dict):
+        erd = {}
+    erd.setdefault("primary_contact", "")
+    erd.setdefault("secondary_contacts", [])
+    erd.setdefault("fallback_protocol", "")
+    result["emergency_routing_rules"] = erd
+
+    # Fix non_emergency_routing_rules
+    nerd = result.get("non_emergency_routing_rules", {})
+    if not isinstance(nerd, dict):
+        nerd = {}
+    nerd.setdefault("primary_contact", "")
+    nerd.setdefault("secondary_contacts", [])
+    nerd.setdefault("message_protocol", "")
+    result["non_emergency_routing_rules"] = nerd
+
+    # Fix business_hours
+    bh = result.get("business_hours", {})
+    if not isinstance(bh, dict):
+        bh = {}
+    bh.setdefault("days", [])
+    bh.setdefault("start_time", "")
+    bh.setdefault("end_time", "")
+    bh.setdefault("timezone", "")
+    result["business_hours"] = bh
+
+    # Ensure all list fields exist
+    for field in ["services_supported", "emergency_definition",
+                  "integration_constraints", "questions_or_unknowns"]:
+        if not isinstance(result.get(field), list):
+            result[field] = []
+
+    # Clean questions_or_unknowns — remove bare field names Groq sometimes adds
+    result["questions_or_unknowns"] = [
+        q for q in result.get("questions_or_unknowns", [])
+        if isinstance(q, str)
+        and q.lower().strip() not in KNOWN_FIELD_NAMES
+        and len(q.strip()) > 10
+    ]
+
+    return result
+
+
+# ─────────────────────────────────────────────────────────────
 # Groq API  (primary path)
 # ─────────────────────────────────────────────────────────────
 
@@ -24,7 +105,8 @@ def _groq_extract(transcript: str, account_id: str, call_type: str) -> Optional[
             "Return ONLY valid JSON — no markdown fences, no explanation. "
             "Never invent data not explicitly stated. "
             "Use empty string or empty array for missing fields. "
-            "Put genuinely unclear or absent fields in questions_or_unknowns."
+            "Put genuinely unclear or absent fields in questions_or_unknowns as human-readable sentences, "
+            "NOT as field names. Example: 'Emergency contact phone number not provided' not 'timeout_seconds'."
         )
 
         if call_type == "demo":
@@ -39,8 +121,8 @@ Return exactly this JSON (fill every field you can find):
   "company_name": "exact company name as stated",
   "business_hours": {{
     "days": ["Monday","Tuesday",...],
-    "start_time": "HH:MM",
-    "end_time": "HH:MM",
+    "start_time": "HH:MM (24hr format)",
+    "end_time": "HH:MM (24hr format)",
     "timezone": "MST / PST / EST / CST"
   }},
   "office_address": "full address if mentioned",
@@ -64,12 +146,20 @@ Return exactly this JSON (fill every field you can find):
   "integration_constraints": ["constraint1","constraint2"],
   "after_hours_flow_summary": "brief description",
   "office_hours_flow_summary": "brief description",
-  "questions_or_unknowns": ["anything missing or unclear"],
+  "questions_or_unknowns": ["write as sentences like: Emergency contact not provided"],
   "notes": "one-line extraction note"
-}}"""
+}}
+
+IMPORTANT:
+- start_time and end_time must be in 24hr HH:MM format (e.g. 07:00 not 7 AM)
+- questions_or_unknowns must be human readable sentences, NOT field names
+- call_transfer_rules timeout_seconds should default to 30 if not mentioned
+- call_transfer_rules max_retries should default to 3 if not mentioned"""
+
         else:
             user = f"""Extract ONLY the NEW or UPDATED information from this onboarding call.
 Do NOT include fields that were not mentioned or changed.
+Do NOT include call_transfer_rules unless explicitly discussed.
 
 TRANSCRIPT:
 {transcript}
@@ -78,26 +168,35 @@ Return a JSON object with only updated/new fields:
 {{
   "account_id": "{account_id}",
   "company_name": "only if changed",
-  "business_hours": {{"only if confirmed or updated"}},
+  "business_hours": {{"only if confirmed or updated, use 24hr HH:MM format"}},
   "office_address": "only if confirmed or updated",
   "services_supported": ["ONLY NEW services to add"],
-  "emergency_definition": ["only if updated"],
-  "emergency_routing_rules": {{"only if contacts changed"}},
+  "emergency_definition": ["only if updated - list each trigger separately"],
+  "emergency_routing_rules": {{
+    "primary_contact": "only if changed",
+    "secondary_contacts": ["backup numbers if mentioned"],
+    "fallback_protocol": "only if clarified"
+  }},
   "non_emergency_routing_rules": {{"only if changed"}},
-  "call_transfer_rules": {{"only if changed"}},
   "integration_constraints": ["ONLY NEW constraints to add"],
   "after_hours_flow_summary": "only if clarified",
   "office_hours_flow_summary": "only if clarified",
   "questions_or_unknowns": []
-}}"""
+}}
+
+IMPORTANT:
+- Do NOT include call_transfer_rules — these are set by default
+- Do NOT add extra keys like monday/tuesday/time_zone/backup_contact
+- secondary_contacts must be a list of phone numbers
+- questions_or_unknowns must be human readable sentences NOT field names"""
 
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",   # fast + accurate, free tier available
+            model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user",   "content": user},
             ],
-            temperature=0,        # deterministic outputs
+            temperature=0,
             max_tokens=2000,
         )
         raw = response.choices[0].message.content.strip()
@@ -232,7 +331,7 @@ class _RuleExtractor:
 
     def _services(self, text: str) -> List[str]:
         for s in self._sentences(text):
-            if re.search(r"we offer|we provide|services include|services are|we handle|services now include", s, re.I):
+            if re.search(r"we offer|we provide|services(?:\s+now)?\s+include|services are|we handle", s, re.I):
                 m = re.search(r"(?:we offer|we provide|services(?:\s+now)?\s+include|services are|we handle)\s+(.+)", s, re.I)
                 if m:
                     raw = m.group(1).rstrip(".")
@@ -285,14 +384,6 @@ class _RuleExtractor:
                 break
         return r
 
-    @staticmethod
-    def _transfer_rules(_text: str) -> Dict:
-        return {
-            "timeout_seconds": 30,
-            "max_retries": 3,
-            "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible.",
-        }
-
     def _constraints(self, text: str) -> List[str]:
         skip = ["promise you can't keep","make promises","guessing","confirm understanding"]
         results = []
@@ -326,7 +417,7 @@ class _RuleExtractor:
         if not bh.get("days"):
             flags.append("Business hours — days not specified")
         if not bh.get("start_time"):
-            flags.append("Business hours — start/end time not specified")
+            flags.append("Business hours — start and end time not specified")
         if not bh.get("timezone"):
             flags.append("Timezone not specified")
         if not data.get("emergency_routing_rules", {}).get("primary_contact"):
@@ -347,7 +438,7 @@ class _RuleExtractor:
             "emergency_definition":         self._emerg_def(text),
             "emergency_routing_rules":      self._emerg_routing(text),
             "non_emergency_routing_rules":  self._non_emerg_routing(text),
-            "call_transfer_rules":          self._transfer_rules(text),
+            "call_transfer_rules":          dict(DEFAULT_TRANSFER_RULES),
             "integration_constraints":      self._constraints(text),
             "after_hours_flow_summary":     self._after_hours(text),
             "office_hours_flow_summary":    self._office_hours(text),
@@ -373,12 +464,19 @@ class TranscriptProcessor:
                               call_type: str = "demo") -> Dict[str, Any]:
         if not account_id:
             account_id = f"ACC_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+
         result = _groq_extract(transcript, account_id, call_type)
         if result:
+            # Always force our account_id — never trust Groq's
             result["account_id"] = account_id
+            # Apply defaults for missing/empty fields
+            result = _apply_defaults(result)
             result.setdefault("notes", f"Extracted via Groq API — {datetime.now().isoformat()}")
             return result
-        return self._rule.extract(transcript, account_id)
+
+        # Fallback to rule-based
+        result = self._rule.extract(transcript, account_id)
+        return _apply_defaults(result)
 
     def extract_updates(self, transcript: str, account_id: str) -> Dict[str, Any]:
         return self.extract_account_info(transcript, account_id, call_type="onboarding")
@@ -399,17 +497,3 @@ if __name__ == "__main__":
     """
     _proc = TranscriptProcessor()
     print(json.dumps(_proc.extract_account_info(_sample, "TEST"), indent=2))
-
-
-
-
-
-
-
-
-
-
-
-
-
-

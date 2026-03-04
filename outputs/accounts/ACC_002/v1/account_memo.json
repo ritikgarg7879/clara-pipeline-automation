@@ -18,8 +18,7 @@
   "services_supported": [
     "Computer Repair",
     "IT Support",
-    "Network Setup services to residential",
-    "small business customers"
+    "Network Setup"
   ],
   "emergency_definition": [
     "server downtime",
@@ -29,28 +28,28 @@
   "emergency_routing_rules": {
     "primary_contact": "555-010223",
     "secondary_contacts": [],
-    "fallback_protocol": "If no one answers we take messages and call back within 2 hours"
+    "fallback_protocol": "messages are taken and we call back within 2 hours"
   },
   "non_emergency_routing_rules": {
-    "primary_contact": "",
+    "primary_contact": "555-010224",
     "secondary_contacts": [],
-    "message_protocol": "If no one answers we take messages and call back within 2 hours"
+    "message_protocol": "messages are taken and we follow up next business day"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
     "max_retries": 3,
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
-  "integration_constraints": [
-    "We never schedule jobs without customer confirmation",
-    "Server downtime and network outages are always emergencies"
-  ],
-  "after_hours_flow_summary": "Our after-hours flow screens for emergencies",
-  "office_hours_flow_summary": "Customers should call our emergency line at 555-010223. For regular service calls during business hours they can reach us at 555-010224",
+  "integration_constraints": [],
+  "after_hours_flow_summary": "screens for emergencies, non-emergency calls get a message taken and followed up next business day",
+  "office_hours_flow_summary": "calls are answered, messages are taken and called back within 2 hours if no one answers",
   "questions_or_unknowns": [
-    "Non-emergency contact phone number not provided"
+    "Account ID not provided",
+    "Failure message for call transfer not specified",
+    "Integration constraints not mentioned",
+    "Notes not provided"
   ],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.330354",
+  "notes": "Extracted from demo call transcript",
   "version": "v1",
-  "last_updated": "2026-03-04T14:11:23.332406"
+  "last_updated": "2026-03-05T00:11:31.169277"
 }

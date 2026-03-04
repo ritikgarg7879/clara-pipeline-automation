@@ -5,13 +5,12 @@
     "from_version": "v1",
     "to_version": "v2",
     "changes": [
-      "Updated Business hours",
       "Added to Services: Smart Panel Installation",
-      "Added to Emergency definition: complete power outage affecting whole property, sparking or burning electrical panel, electrical fire or smoke from outlets, downed power lines, carbon monoxide alarm triggered by electrical fault",
+      "Added to Emergency definition: complete power outage affecting whole property, electrical fire or smoke from outlets, carbon monoxide alarm triggered by electrical fault",
       "Updated Emergency routing",
       "Updated Non-emergency routing",
       "Added to Integration constraints: Never create a job in Jobber without customer verbal confirmation, Never book emergency jobs directly, Never promise same-day service"
     ],
-    "timestamp": "2026-03-04T12:15:03.690098"
+    "timestamp": "2026-03-05T00:11:35.281566"
   }
 ]

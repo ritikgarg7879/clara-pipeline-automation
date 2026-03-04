@@ -18,8 +18,9 @@
   "services_supported": [
     "Computer Repair",
     "IT Support",
-    "Network Setup services to residential",
-    "small business customers"
+    "Network Setup",
+    "IT Security Audit",
+    "Cloud Backup Setup"
   ],
   "emergency_definition": [
     "server downtime",
@@ -29,14 +30,14 @@
   "emergency_routing_rules": {
     "primary_contact": "555-010225",
     "secondary_contacts": [
-      "555-010224"
+      "555-010226"
     ],
-    "fallback_protocol": "Attempt transfer to 555-010225, backup 555-010226. If transfer fails assure callback within 30 minutes"
+    "fallback_protocol": "Assure callback within 30 minutes if transfer fails"
   },
   "non_emergency_routing_rules": {
     "primary_contact": "555-010224",
     "secondary_contacts": [],
-    "message_protocol": "If no one answers we take messages and call back within 2 hours"
+    "message_protocol": "messages are taken and we follow up next business day"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -44,20 +45,18 @@
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
   "integration_constraints": [
-    "We never schedule jobs without customer confirmation",
-    "Server downtime and network outages are always emergencies",
-    "New constraints: Never schedule jobs on Sundays",
-    "Never promise remote support as the only option, always offer to schedule an on-site visit",
-    "Server downtime and complete network outages always qualify"
+    "Never schedule jobs on Sundays",
+    "Never promise remote support as the only option, always offer to schedule an on-site visit"
   ],
-  "after_hours_flow_summary": "After-hours: screen for emergencies",
-  "office_hours_flow_summary": "Greet caller, identify needs, collect name and callback number, route to appropriate contact or take message.",
+  "after_hours_flow_summary": "Screen for emergencies, collect caller information, attempt transfer to primary contact, and assure callback within 30 minutes if transfer fails",
+  "office_hours_flow_summary": "calls are answered, messages are taken and called back within 2 hours if no one answers",
   "questions_or_unknowns": [
-    "Non-emergency contact phone number not provided",
-    "Company name could not be extracted",
-    "Emergency definition not specified"
+    "Account ID not provided",
+    "Failure message for call transfer not specified",
+    "Integration constraints not mentioned",
+    "Notes not provided"
   ],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.330354",
+  "notes": "Extracted from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-04T14:11:23.910285"
+  "last_updated": "2026-03-05T00:11:36.312620"
 }

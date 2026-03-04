@@ -8,8 +8,9 @@
       "Updated Business hours",
       "Added to Services: Landscape Lighting Installation",
       "Updated Emergency routing",
-      "Added to Integration constraints: Never schedule tree removal jobs on Mondays, Require a signed written quote before scheduling any job over 500 dollars"
+      "Updated Non-emergency routing",
+      "Added to Integration constraints: Never schedule tree removal jobs on Mondays, Always require a signed written quote before scheduling any job over 500 dollars"
     ],
-    "timestamp": "2026-03-04T12:15:06.087894"
+    "timestamp": "2026-03-05T00:11:38.389876"
   }
 ]

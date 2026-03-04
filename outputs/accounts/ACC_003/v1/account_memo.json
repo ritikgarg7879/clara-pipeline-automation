@@ -18,7 +18,7 @@
     "Plumbing",
     "Drain Cleaning",
     "Water Heater Installation",
-    "Emergency Plumbing services"
+    "Emergency Plumbing"
   ],
   "emergency_definition": [
     "burst pipes",
@@ -27,30 +27,29 @@
     "no hot water in winter"
   ],
   "emergency_routing_rules": {
-    "primary_contact": "",
+    "primary_contact": "555-020123",
     "secondary_contacts": [],
     "fallback_protocol": ""
   },
   "non_emergency_routing_rules": {
     "primary_contact": "555-020124",
     "secondary_contacts": [],
-    "message_protocol": "For regular appointments during business hours they call 555-020124. We take messages after hours and call back first thing in the morning"
+    "message_protocol": "We take messages after hours and call back first thing in the morning"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
     "max_retries": 3,
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
-  "integration_constraints": [
-    "We never send a technician without confirming the appointment first",
-    "We never promise exact arrival times and always give a 2-hour window"
-  ],
-  "after_hours_flow_summary": "For regular appointments during business hours they call 555-020124. We take messages after hours and call back first thing in the morning",
-  "office_hours_flow_summary": "For regular appointments during business hours they call 555-020124. We take messages after hours and call back first thing in the morning",
+  "integration_constraints": [],
+  "after_hours_flow_summary": "Messages are taken and returned the next morning",
+  "office_hours_flow_summary": "Appointments are confirmed before a technician is sent",
   "questions_or_unknowns": [
-    "Emergency contact phone number not provided"
+    "No secondary emergency contact provided",
+    "No fallback protocol for emergency contact provided",
+    "No failure message for call transfer provided"
   ],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.370358",
+  "notes": "Extracted from demo call transcript for ABC Plumbing Services",
   "version": "v1",
-  "last_updated": "2026-03-04T14:11:23.371354"
+  "last_updated": "2026-03-05T00:11:32.215806"
 }

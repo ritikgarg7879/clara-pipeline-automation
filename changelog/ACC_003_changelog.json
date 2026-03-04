@@ -5,11 +5,10 @@
     "from_version": "v1",
     "to_version": "v2",
     "changes": [
-      "Updated Business hours",
       "Added to Services: Sump Pump Installation",
       "Updated Emergency routing",
-      "Added to Integration constraints: Never schedule drain cleaning jobs between 8 AM and 9 AM, Never promise a specific arrival time, always give a 2-hour window"
+      "Added to Integration constraints: Never schedule drain cleaning jobs between 08:00 and 09:00, Never promise a specific arrival time, always give a 2-hour window"
     ],
-    "timestamp": "2026-03-04T12:15:05.339804"
+    "timestamp": "2026-03-05T00:11:37.572067"
   }
 ]

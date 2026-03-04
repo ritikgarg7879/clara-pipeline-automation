@@ -1,6 +1,6 @@
 {
   "account_id": "ACC_004",
-  "company_name": "GreenLandscaping Co",
+  "company_name": "GreenLandscaping Co.",
   "business_hours": {
     "days": [
       "Monday",
@@ -34,7 +34,7 @@
   "non_emergency_routing_rules": {
     "primary_contact": "555-030124",
     "secondary_contacts": [],
-    "message_protocol": "After hours we take messages and call back next business day"
+    "message_protocol": "we take messages and call back next business day"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -42,13 +42,17 @@
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
   "integration_constraints": [
-    "We never schedule tree removal jobs without an in-person assessment first",
-    "We require at least 48 hours notice for all appointments"
+    "at least 48 hours notice for all appointments",
+    "in-person assessment required for tree removal jobs"
   ],
-  "after_hours_flow_summary": "After hours we take messages and call back next business day",
-  "office_hours_flow_summary": "Greet caller, identify needs, collect name and callback number, route to appropriate contact or take message.",
-  "questions_or_unknowns": [],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.407363",
+  "after_hours_flow_summary": "take messages and call back next business day",
+  "office_hours_flow_summary": "regular scheduling and quotes through primary contact",
+  "questions_or_unknowns": [
+    "Account ID not provided",
+    "Failure message for call transfer not provided",
+    "Fallback protocol for emergency routing not provided"
+  ],
+  "notes": "Extracted from demo call transcript",
   "version": "v1",
-  "last_updated": "2026-03-04T14:11:23.408707"
+  "last_updated": "2026-03-05T00:11:33.164926"
 }

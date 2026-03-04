@@ -1,3 +1,7 @@
+
+from dotenv import load_dotenv
+load_dotenv()
+
 import argparse
 import json
 import os
@@ -7,7 +11,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
-# Support running as: python scripts/batch_processor.py from project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scripts.transcript_processor   import TranscriptProcessor
@@ -234,7 +237,7 @@ class BatchProcessor:
             "timestamp": datetime.now().isoformat(),
         }
         summary_path = self.base_dir / "batch_processing_summary.json"
-        with open(summary_path, "w") as fh:
+        with open(summary_path, "w", encoding="utf-8") as fh:
             json.dump(summary, fh, indent=2)
 
         print(f"\n✅  All done!  Summary → {summary_path}")
@@ -257,35 +260,97 @@ class BatchProcessor:
     def _merge(base: Dict[str, Any], updates: Dict[str, Any]) -> Dict[str, Any]:
         """
         Merge onboarding updates into v1.
-        - Lists  → union (new items appended, no duplicates)
-        - Dicts  → deep merge (non-empty update fields override)
+        - Lists  → union (no near-duplicates)
+        - Dicts  → deep merge (empty values never overwrite)
         - Scalars → update only if new value is non-empty
         - account_id is never changed
+        - Protected fields keep their v1 values always
         """
         merged = dict(base)
-        list_fields = ["services_supported","emergency_definition","integration_constraints","questions_or_unknowns"]
-        dict_fields = ["business_hours","emergency_routing_rules","non_emergency_routing_rules","call_transfer_rules"]
-        skip_fields = {"account_id","version","last_updated","notes","_method","_old_services"}
+        list_fields = ["services_supported", "emergency_definition",
+                       "integration_constraints", "questions_or_unknowns"]
+        dict_fields = ["business_hours", "emergency_routing_rules",
+                       "non_emergency_routing_rules", "call_transfer_rules"]
+        skip_fields = {"account_id", "version", "last_updated", "notes", "_method"}
+
+        # These keys inside dicts must NEVER be overwritten if they already have a value
+        protected_keys = {
+            "timeout_seconds", "max_retries", "failure_message",  # call_transfer_rules
+            "start_time", "end_time", "timezone",  # business_hours
+        }
+
+        # These extra keys Groq sometimes adds — never allow them
+        rejected_keys = {
+            "time_zone", "monday", "tuesday", "wednesday",
+            "thursday", "friday", "saturday", "sunday",
+            "emergency_transfer", "non_emergency_transfer",
+            "phone", "message_details", "transfer_timeout",
+            "callback_timeout", "backup_contact",
+        }
 
         for key, value in updates.items():
             if key in skip_fields:
                 continue
             if value in (None, "", [], {}):
-                continue   # never overwrite good data with empty
+                continue
+
             if key in list_fields and isinstance(value, list):
                 existing = list(merged.get(key, []))
                 for item in value:
-                    if item and item not in existing:
+                    if not item:
+                        continue
+                    # Skip near-duplicates
+                    item_norm = item.lower().strip().rstrip("s")
+                    already_exists = any(
+                        item_norm in ex.lower().strip().rstrip("s") or
+                        ex.lower().strip().rstrip("s") in item_norm
+                        for ex in existing
+                    )
+                    if not already_exists:
                         existing.append(item)
                 merged[key] = existing
+
             elif key in dict_fields and isinstance(value, dict):
                 existing = dict(merged.get(key, {}))
                 for k, v in value.items():
-                    if v not in (None, "", [], {}):
+                    # Reject keys Groq should never add
+                    if k in rejected_keys:
+                        # Special case: backup_contact goes into secondary_contacts
+                        if k == "backup_contact" and v:
+                            sc = existing.get("secondary_contacts", [])
+                            if v not in sc:
+                                sc.append(v)
+                            existing["secondary_contacts"] = sc
+                        continue
+                    if v in (None, "", [], {}):
+                        continue
+                    # Protected keys — only set if currently empty/missing in v1
+                    if k in protected_keys:
+                        if not existing.get(k):
+                            existing[k] = v
+                        # else keep v1 value — never overwrite
+                    else:
                         existing[k] = v
                 merged[key] = existing
+
             else:
                 merged[key] = value
+
+        # Clean questions_or_unknowns — remove bare field names
+        known_field_names = {
+            "account_id", "company_name", "business_hours", "office_address",
+            "services_supported", "emergency_definition", "emergency_routing_rules",
+            "non_emergency_routing_rules", "call_transfer_rules", "integration_constraints",
+            "after_hours_flow_summary", "office_hours_flow_summary", "questions_or_unknowns",
+            "notes", "version", "last_updated", "timeout_seconds", "max_retries",
+            "failure_message", "primary_contact", "secondary_contacts", "fallback_protocol",
+            "call_transfer_rules details",
+        }
+        merged["questions_or_unknowns"] = [
+            q for q in merged.get("questions_or_unknowns", [])
+            if q.lower().strip() not in known_field_names and len(q.strip()) > 10
+        ]
+
         return merged
 
 

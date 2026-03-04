@@ -20,26 +20,29 @@
     "AC Installation",
     "Air Quality Testing",
     "Duct Cleaning",
-    "Furnace Maintenance"
+    "Furnace Maintenance",
+    "Smart Thermostat Installation",
+    "Heat Pump Service"
   ],
   "emergency_definition": [
     "no heat in winter when below freezing",
     "no cooling during heat advisory",
     "gas smell near the HVAC unit",
     "carbon monoxide alerts",
-    "s: gas smell near HVAC is always immediate emergency"
+    "gas smell near HVAC",
+    "No cooling when outdoor temperature is above 95 degrees"
   ],
   "emergency_routing_rules": {
     "primary_contact": "555-040125",
     "secondary_contacts": [
-      "555-040124"
+      "555-040126"
     ],
-    "fallback_protocol": "Emergency transfer: attempt 555-040125 then 555-040126. If both fail promise callback within 1 hour"
+    "fallback_protocol": "promise callback within 1 hour"
   },
   "non_emergency_routing_rules": {
     "primary_contact": "555-040124",
     "secondary_contacts": [],
-    "message_protocol": "We call back within 1 hour during business hours"
+    "message_protocol": "call back within 1 hour during business hours"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -47,19 +50,19 @@
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
   "integration_constraints": [
-    "We never perform work on a system under warranty from another contractor without written authorization",
-    "We always confirm appointments 24 hours in advance",
-    "New constraints: Never schedule maintenance visits on the same day the customer calls, minimum next-day scheduling",
-    "Never dispatch for warranty work without first verifying warranty status with the customer",
-    "After-hours emergency definitions: gas smell near HVAC is always immediate emergency",
-    "Carbon monoxide alert is always immediate emergency"
+    "never perform work on a system under warranty from another contractor without written authorization",
+    "Never schedule maintenance visits on the same day the customer calls",
+    "minimum next-day scheduling",
+    "Never dispatch for warranty work without first verifying warranty status with the customer"
   ],
-  "after_hours_flow_summary": "After-hours emergency definitions: gas smell near HVAC is always immediate emergency",
-  "office_hours_flow_summary": "Greet caller, identify needs, collect name and callback number, route to appropriate contact or take message.",
+  "after_hours_flow_summary": "emergency transfer: attempt primary then secondary, promise callback within 1 hour",
+  "office_hours_flow_summary": "call back within 1 hour during business hours for regular service and maintenance scheduling",
   "questions_or_unknowns": [
-    "Company name could not be extracted"
+    "Account ID not provided",
+    "Failure message for call transfer not specified",
+    "Fallback protocol for emergency routing not specified"
   ],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.443820",
+  "notes": "Extracted from demo call transcript",
   "version": "v2",
-  "last_updated": "2026-03-04T14:11:24.411205"
+  "last_updated": "2026-03-05T00:11:39.299459"
 }

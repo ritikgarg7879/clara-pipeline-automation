@@ -31,12 +31,12 @@
   "emergency_routing_rules": {
     "primary_contact": "555-040123",
     "secondary_contacts": [],
-    "fallback_protocol": "We call back within 1 hour during business hours"
+    "fallback_protocol": ""
   },
   "non_emergency_routing_rules": {
     "primary_contact": "555-040124",
     "secondary_contacts": [],
-    "message_protocol": "We call back within 1 hour during business hours"
+    "message_protocol": "call back within 1 hour during business hours"
   },
   "call_transfer_rules": {
     "timeout_seconds": 30,
@@ -44,13 +44,16 @@
     "failure_message": "I'm unable to connect you right now, but I'll make sure someone gets your message and calls you back as soon as possible."
   },
   "integration_constraints": [
-    "We never perform work on a system under warranty from another contractor without written authorization",
-    "We always confirm appointments 24 hours in advance"
+    "never perform work on a system under warranty from another contractor without written authorization"
   ],
-  "after_hours_flow_summary": "Screen for emergencies, collect contact information, then transfer or take a detailed message for callback.",
-  "office_hours_flow_summary": "For regular service and maintenance scheduling call 555-040124 during business hours",
-  "questions_or_unknowns": [],
-  "notes": "Rule-based extraction \u2014 2026-03-04T14:11:23.443820",
+  "after_hours_flow_summary": "24/7 on-call technicians for emergencies",
+  "office_hours_flow_summary": "call back within 1 hour during business hours for regular service and maintenance scheduling",
+  "questions_or_unknowns": [
+    "Account ID not provided",
+    "Failure message for call transfer not specified",
+    "Fallback protocol for emergency routing not specified"
+  ],
+  "notes": "Extracted from demo call transcript",
   "version": "v1",
-  "last_updated": "2026-03-04T14:11:23.444726"
+  "last_updated": "2026-03-05T00:11:34.098118"
 }
